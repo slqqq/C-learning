@@ -1,0 +1,30 @@
+#include <fstream>
+#include <iostream>
+#include <cstdlib>
+#include <string>
+using namespace std;
+int main() 
+{
+	ofstream ofile;
+	ofile.open("test.txt");
+	ofile << "hello world test!";
+	ofile.close();
+
+	ifstream ifile;
+	ifile.open("test.txt");
+	if (!ifile.is_open())
+	{
+		exit(EXIT_FAILURE);
+	}
+	cout << "hi";
+	string str;
+	while (ifile >> str)
+	{
+		cout << str;
+	}
+	ifile.close();
+
+	system("pause");
+	return 0;
+
+}
