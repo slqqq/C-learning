@@ -1,0 +1,87 @@
+/*
+观察者模式：定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都要得到通知并自动更新。
+主要解决：一个对象更新，其它对象也要更新。
+如何解决：目标类通知函数通知所有观察者自动更新。
+关键代码：在目标类中增加一个ArrayList来存放观察者们。
+https://blog.csdn.net/lh844386434/article/details/18006427
+*/
+
+#include<iostream>
+#include<list>
+#include<string>
+using namespace std;
+
+
+
+class TecherListenner
+{
+public:
+	virtual void onTecherComming() = 0;
+};  
+
+class INotifier
+{
+public:
+	virtual void addListenner(TecherListenner* listenner) = 0;
+	virtual void removeListenner(TecherListenner* listenner) = 0;
+	virtual void notify() = 0;
+};
+
+class TecherNotifier : public INotifier
+{
+public:
+	virtual void addListenner(TecherListenner* listenner)
+	{
+		m_listenners.push_back(listenner);
+	}
+	virtual void removeListenner(TecherListenner* listenner)
+	{
+		//if contains();  
+		m_listenners.remove(listenner);
+		delete listenner;
+	}
+	virtual void notify()
+	{
+		list <TecherListenner*> ::iterator it = m_listenners.begin();
+		for (; it != m_listenners.end(); ++it)
+		{
+			(*it)->onTecherComming();//通知大家，老师来了  
+		}
+	}
+private:
+	list<TecherListenner*> m_listenners;
+};
+
+class XiaoZhang : public TecherListenner
+{
+public:
+	virtual void onTecherComming()
+	{
+		stopCopyWork();
+	}
+	void stopCopyWork()
+	{
+		cout << "老师来了，停止抄作业！" << endl;
+	}
+};
+
+
+class XiaoLi : public TecherListenner
+{
+public:
+	virtual void onTecherComming()
+	{
+		stopPlayGame();
+	}
+	void stopPlayGame()
+	{
+		cout << "老师来了，停止玩游戏机！" << endl;
+	}
+};
+
+TecherNotifier monitor;
+XiaoZhang xz;
+XiaoLi xl;
+monitor.addListenner(&xz);
+monitor.addListenner(&xl);
+monitor.notify();
