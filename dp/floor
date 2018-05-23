@@ -1,0 +1,21 @@
+
+/*
+一个人每次只能走一层楼梯或者两层楼梯，问走到第80层楼梯一共有多少种方法。
+*/
+
+#include <iostream>  
+using namespace std;
+int dp[10001] = { 0 };
+
+int main() {
+	int num;
+	cin >> num;
+	dp[1] = 1;
+	dp[2] = 2;
+	for (int i = 3; i <= num; i++) {
+		dp[i] = dp[i - 1] + dp[i - 2];
+	}
+	cout << dp[num] << endl;
+	system("pause");
+	return 0;
+}
