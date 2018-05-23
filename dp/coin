@@ -1,0 +1,38 @@
+
+/*
+动态规划硬币
+https://blog.csdn.net/hushhw/article/details/77512851
+*/
+
+#include <iostream>  
+
+using namespace std;
+
+int coin[3] = { 5, 3, 1 };
+
+int func(int num)
+{
+	int *d = new int[num + 1];
+	d[0] = 0;
+
+	for (int i = 1; i <= num; ++i)
+	{
+		d[i] = i;
+		for (int j = 0; j < 3; ++j)
+		{
+			if (coin[j] <= i && d[i - coin[j]] + 1 < d[i])
+			{
+				d[i] = d[i - coin[j]] + 1;
+			}
+		}
+	}
+
+	return d[num];
+}
+
+int main()
+{
+	cout << func(11) << endl;
+	system("pause");
+	return 0;
+}
